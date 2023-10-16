@@ -21,20 +21,25 @@ class HeadHunterAPI:
         Метод для получения информации о работодателе
         :return: Словарь с информацией о работодателе в городе Москва
         """
-        params = {
-            'text': f"{self.employer_name}",
-            'area': 1,
-            'only_with_vacancies': True,
-            'pages': 1,
-            'per_page': 10
-        }
-        req = requests.get(URL_HH_API_EMPLOYERS, params)
-        req.content.decode()
-        req.close()
+        try:
+            params = {
+                'text': f"{self.employer_name}",
+                'area': 1,
+                'only_with_vacancies': True,
+                'pages': 1,
+                'per_page': 100
+            }
+            req = requests.get(URL_HH_API_EMPLOYERS, params)
+            req.content.decode()
+            req.close()
 
-        employer_data = req.json()['items'][0]
+            employer_data = req.json()['items'][0]
 
-        return employer_data
+            return employer_data
+
+        except IndexError:
+
+            return {}
 
     def get_vacancies_data(self, employer_id: int) -> list[dict]:
         """
@@ -42,14 +47,20 @@ class HeadHunterAPI:
         :param employer_id: id работодателя
         :return: Список вакансий работодателя
         """
-        params = {
-            'employer_id': f"{employer_id}",
-            'per_page': 10
-        }
-        req = requests.get(URL_HH_API_VACANCIES, params)
-        req.content.decode()
-        req.close()
+        try:
 
-        vacancy_data = req.json()['items']
+            params = {
+                'employer_id': f"{employer_id}",
+                'per_page': 100
+            }
+            req = requests.get(URL_HH_API_VACANCIES, params)
+            req.content.decode()
+            req.close()
 
-        return vacancy_data
+            vacancy_data = req.json()['items']
+
+            return vacancy_data
+
+        except KeyError:
+
+            return []

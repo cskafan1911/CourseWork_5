@@ -45,7 +45,7 @@ class EmployersJSON(JSONManager):
         if os.path.exists(self.__filename):
             with open(self.__filename, 'r', encoding='utf-8') as file:
                 employer_data = json.load(file)
-            if not any(employer['id'] == data['id'] for employer in employer_data):
+            if not any(employer.get('id') == data.get('id') for employer in employer_data):
                 employer_data.append(data)
                 with open(self.__filename, 'w', encoding='utf-8') as file:
                     json.dump(employer_data, file, ensure_ascii=False, indent=2)
@@ -85,16 +85,14 @@ class VacanciesJSON(JSONManager):
         if os.path.exists(self.__filename):
             with open(self.__filename, 'r', encoding='utf-8') as file:
                 vacancy_data = json.load(file)
-            for vacancy_add in data:
-                for vacancy in vacancy_data:
-                    if vacancy['id'] != vacancy_add['id']:
-                        vacancy_data.append(vacancy_add)
+            for new_vacancy in data:
+                if not any(vacancy.get('id') == new_vacancy.get('id') for vacancy in vacancy_data):
+                    vacancy_data.append(new_vacancy)
             with open(self.__filename, 'w', encoding='utf-8') as file:
                 json.dump(vacancy_data, file, ensure_ascii=False, indent=2)
         else:
-            vacancy_data = data
             with open(self.__filename, 'w', encoding='utf-8') as file:
-                json.dump(vacancy_data, file, ensure_ascii=False, indent=2)
+                json.dump(data, file, ensure_ascii=False, indent=2)
 
     def read_file(self):
         """
