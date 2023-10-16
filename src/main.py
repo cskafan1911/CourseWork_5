@@ -1,11 +1,20 @@
-# Класс для парсинга работодателей: получает от пользователя имя компании и выводит данные
-# (id, name, количество открытых вакансий) о работодателе в виде списка
+from classes.DBCreator import DBCreator
+from classes.file_manager import EmployersJSON, VacanciesJSON
+from src.utils import user_interaction
+from config import config
 
-# Класс для парсинга вакансий: получает из класса работодателя id компании и выводит данные о вакансиях
 
-# Класс файл менеджер: сохраняет данные о работодателях и вакансиях полученных из классов парсинга в файл json
+def main():
 
-# Класс для создания базы данных: получает данные о работодателях и вакансиях и сохраняет их в таблицы
+    user_interaction()
+    params = config()
+    head_hunter_db = DBCreator('headhunter_db', params)
+    head_hunter_db.create_db()
+    employers_in_database = EmployersJSON()
+    vacancies_in_database = VacanciesJSON()
+    employers_in_database.read_file()
+    vacancies_in_database.read_file()
 
-# Класс для работы с базой данных и таблицами
 
+if __name__ == '__main__':
+    main()
