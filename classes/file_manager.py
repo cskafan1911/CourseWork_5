@@ -2,7 +2,9 @@ import ast
 import json
 import os
 from abc import ABC, abstractmethod
-from config import FILENAME_EMPLOYER, FILENAME_VACANCIES
+from typing import Any
+
+from settings import FILENAME_EMPLOYER, FILENAME_VACANCIES
 
 
 class JSONManager(ABC):
@@ -37,7 +39,7 @@ class EmployersJSON(JSONManager):
         """
         self.__filename = FILENAME_EMPLOYER + ".json"
 
-    def save_file(self, data: dict):
+    def save_file(self, data: dict[str: Any]) -> None:
         """
         Метод сохраняет информацию о работодателе в файл формата JSON
         """
@@ -56,7 +58,7 @@ class EmployersJSON(JSONManager):
             with open(self.__filename, 'w', encoding='utf-8') as file:
                 json.dump(employer_data, file, ensure_ascii=False, indent=2)
 
-    def read_file(self):
+    def read_file(self) -> list[dict[str: Any]]:
         """
         Метод для чтения файла
         """
@@ -77,7 +79,7 @@ class VacanciesJSON(JSONManager):
         """
         self.__filename = FILENAME_VACANCIES + ".json"
 
-    def save_file(self, data: list[dict]):
+    def save_file(self, data: list[dict[str: Any]]) -> None:
         """
         Метод сохраняет список вакансий в файл формата JSON
         """
@@ -94,7 +96,7 @@ class VacanciesJSON(JSONManager):
             with open(self.__filename, 'w', encoding='utf-8') as file:
                 json.dump(data, file, ensure_ascii=False, indent=2)
 
-    def read_file(self):
+    def read_file(self) -> list[dict[str: Any]]:
         """
         Метод для чтения файла
         """
