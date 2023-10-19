@@ -8,7 +8,7 @@ def user_interaction():
     """
     print('Привет! Это программа выдает информацию о 10-ти интересующих работодателях и их открытых вакансиях')
 
-    for num in range(1, 2):
+    for num in range(1, 3):
         user_input = input(f"Введите название компании № {num}:\n")
 
         # Экземпляр класса HeadHunterAPI
