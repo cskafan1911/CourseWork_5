@@ -35,7 +35,6 @@ class DBManager(DBCreator):
     def get_vacancies_with_higher_salary(self) -> list[Any]:
         """
         Получает список всех вакансий, у которых зарплата выше средней по всем вакансиям
-        :return:
         """
         result = self.__get_data_from_database('SELECT * FROM vacancies WHERE (salary_to + salary_from) / 2 > '
                                 '(SELECT ROUND ((AVG (salary_from) + AVG(salary_to)) / 2) FROM vacancies)')
@@ -45,7 +44,8 @@ class DBManager(DBCreator):
     def get_vacancies_with_keyword(self, word) -> list[tuple[Any]] | str:
         """
         Получает список всех вакансий, в названии которых содержатся переданные в метод слова
-        :return:
+        :param word: слово для поиска вакансий
+        :return: данные из базы postgres
         """
         conn = psycopg2.connect(dbname=self.database_name, **self.params)
         with conn.cursor() as cur:
@@ -61,6 +61,11 @@ class DBManager(DBCreator):
         return rows
 
     def __get_data_from_database(self, queries) -> list[Any]:
+        """
+        Метод делает запрос и получает данные из базы
+        :param queries: SQL запрос
+        :return: данные из базы postgres
+        """
         conn = psycopg2.connect(dbname=self.database_name, **self.params)
         with conn.cursor() as cur:
             cur.execute(queries)
