@@ -15,7 +15,7 @@ class DBManager(DBCreator):
         Получает список всех компаний и количество вакансий у каждой компании
         """
 
-        return self.__get_any('SELECT employer_name, open_vacancies FROM employers ORDER BY open_vacancies DESC')
+        return self.__get_data_from_database('SELECT employer_name, open_vacancies FROM employers ORDER BY open_vacancies DESC')
 
     def get_all_vacancies(self) -> list[tuple[Any]]:
         """
@@ -23,21 +23,21 @@ class DBManager(DBCreator):
         и ссылки на вакансию
         """
 
-        return self.__get_any('SELECT employer_name, vacancy_name, salary_from, salary_to, url_vacancy FROM vacancies')
+        return self.__get_data_from_database('SELECT employer_name, vacancy_name, salary_from, salary_to, url_vacancy FROM vacancies')
 
     def get_avg_salary(self) -> list[tuple[Any]]:
         """
         Получает среднюю зарплату по вакансиям
         """
 
-        return self.__get_any('SELECT ROUND ((AVG (salary_from) + AVG(salary_to)) / 2) AS AVG_salary FROM vacancies')
+        return self.__get_data_from_database('SELECT ROUND ((AVG (salary_from) + AVG(salary_to)) / 2) AS AVG_salary FROM vacancies')
 
     def get_vacancies_with_higher_salary(self) -> list[Any]:
         """
         Получает список всех вакансий, у которых зарплата выше средней по всем вакансиям
         :return:
         """
-        result = self.__get_any('SELECT * FROM vacancies WHERE (salary_to + salary_from) / 2 > '
+        result = self.__get_data_from_database('SELECT * FROM vacancies WHERE (salary_to + salary_from) / 2 > '
                                 '(SELECT ROUND ((AVG (salary_from) + AVG(salary_to)) / 2) FROM vacancies)')
 
         return result
@@ -60,7 +60,7 @@ class DBManager(DBCreator):
 
         return rows
 
-    def __get_any(self, queries) -> list[Any]:
+    def __get_data_from_database(self, queries) -> list[Any]:
         conn = psycopg2.connect(dbname=self.database_name, **self.params)
         with conn.cursor() as cur:
             cur.execute(queries)
