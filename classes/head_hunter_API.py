@@ -1,7 +1,7 @@
 from typing import Any
 
 import requests
-from config import URL_HH_API_EMPLOYERS, URL_HH_API_VACANCIES
+from settings import URL_HH_API_EMPLOYERS, URL_HH_API_VACANCIES
 
 
 class HeadHunterAPI:
@@ -16,7 +16,7 @@ class HeadHunterAPI:
         """
         self.employer_name = employer_name
 
-    def get_employer_data(self) -> dict:
+    def get_employer_data(self) -> dict[str: Any]:
         """
         Метод для получения информации о работодателе
         :return: Словарь с информацией о работодателе в городе Москва
@@ -41,7 +41,7 @@ class HeadHunterAPI:
 
             return {}
 
-    def get_vacancies_data(self, employer_id: int) -> list[dict]:
+    def get_vacancies_data(self, employer_id: int) -> list[dict[str: Any]]:
         """
         Метод для получения вакансий работодателя
         :param employer_id: id работодателя
