@@ -41,7 +41,7 @@ class DBManager(DBCreator):
 
         return result
 
-    def get_vacancies_with_keyword(self, word) -> list[tuple[Any]] | str:
+    def get_vacancies_with_keyword(self, word: str) -> list[tuple[Any]] | str:
         """
         Получает список всех вакансий, в названии которых содержатся переданные в метод слова
         :param word: слово для поиска вакансий
