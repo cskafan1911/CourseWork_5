@@ -13,11 +13,11 @@
 Программа работает с PostgreSQL. Для подключения к базе данных PostgreSQL необходимо создать файл database.ini в директории src и прописать в нем 
 (в строке password='ваш пароль от PostgresSQL'):
 
-[postgresql]
-host=localhost
-user=postgres
-password=
-port=5432
+#### [postgresql]
+#### host=localhost
+#### user=Имя пользователя (default=postgres)
+#### password=Пароль от БД
+#### port=5432
 
 
 Для работы с виртуальным окружением нужно использовать poetry (для установки пропишите pip install poetry в терминале pycharm). 
